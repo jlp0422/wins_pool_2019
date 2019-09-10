@@ -9,14 +9,42 @@ import {
 
 const StandingsTable = () => {
 	const [weeklyGames, setWeeklyGames] = useState({})
+	const [winsPerTeam, setWinsPerTeam] = useState({})
 	useEffect(() => {
+		const sourceOne = axios.CancelToken.source()
+		const sourceTwo = axios.CancelToken.source()
+
 		const fetchData = async () => {
-			const result = await axios
-				.get('/api/games')
-				.then(res => res.data.games)
-				.then(parseSeasonGames)
-				.then(indexByWeek)
-			setWeeklyGames(result)
+			try {
+				const weeklyGamesResult = await axios
+					.get('/api/games', {
+						cancelToken: sourceOne.token
+					})
+					.then(res => res.data.games)
+					.then(parseSeasonGames)
+					.then(indexByWeek)
+
+				const winsPerTeamResult = await axios
+					.get('/api/wins', {
+						cancelToken: sourceTwo.token
+					})
+					.then(res => res.data.teams)
+					.then(teams =>
+						teams.reduce((memo, { team, stats }) => {
+							memo[team.abbreviation] = stats.standings.wins
+							return memo
+						}, {})
+					)
+
+				setWeeklyGames(weeklyGamesResult)
+				setWinsPerTeam(winsPerTeamResult)
+			} catch (error) {
+				if (axios.isCancel()) {
+					console.log('Request was cancelled')
+				} else {
+					throw error
+				}
+			}
 		}
 		fetchData()
 	}, [])
@@ -49,10 +77,12 @@ const StandingsTable = () => {
 	)
 
 	const weeks = Object.keys(weeklyGames)
+	const teamWins = Object.keys(winsPerTeam)
 
-	if (!weeks.length) {
+	if (!weeks.length || !teamWins.length) {
 		return <h3>Loading...</h3>
 	}
+
 	return (
 		<div>
 			<div style={{ display: 'flex', paddingBottom: '10px' }}>
@@ -74,6 +104,7 @@ const StandingsTable = () => {
 								{pick}
 							</th>
 						))}
+						<th style={rowStyling}>Wins</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -110,6 +141,7 @@ const StandingsTable = () => {
 									</td>
 								)
 							})}
+							<td style={rowStyling}>{winsPerTeam[abbreviation]}</td>
 						</tr>
 					))}
 				</tbody>

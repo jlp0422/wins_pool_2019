@@ -6,14 +6,30 @@ const Rosters = () => {
 	const [teamWins, setTeamWins] = useState([])
 
 	useEffect(() => {
+		const source = axios.CancelToken.source()
+
 		const fetchData = async () => {
-			const result = await axios
-				.get('/api/wins')
-				.then(res => res.data.teams)
-				.then(formatTeams)
-			setTeamWins(result)
+			try {
+				const result = await axios
+					.get('/api/wins', {
+						cancelToken: source.token
+					})
+					.then(res => res.data.teams)
+					.then(formatTeams)
+				setTeamWins(result)
+			} catch (error) {
+				if (axios.isCancel(error)) {
+					console.log('Request was cancelled')
+				} else {
+					throw error
+				}
+			}
 		}
 		fetchData()
+
+		return () => {
+			source.cancel()
+		}
 	}, [])
 
 	const teamsPerPerson = poolSelections.reduce((memo, pick) => {
