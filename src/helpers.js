@@ -235,3 +235,32 @@ export const indexByWeek = parsedGames =>
 		}
 		return memo
 	}, {})
+
+export const getTeamWeekInfo = ({ weekGames, abbreviation, weekNumber }) => {
+	const isWinner = Boolean(
+		weekGames.find(({ winner }) => winner === abbreviation)
+	)
+	const isLaterGame = Boolean(
+		weekGames.find(
+			({ homeTeam, awayTeam }) =>
+				homeTeam === abbreviation || awayTeam === abbreviation
+		)
+	)
+	const isTie = weekGames.find(
+		({ isTie, homeTeam, awayTeam }) =>
+			isTie && (homeTeam === abbreviation || awayTeam === abbreviation)
+	)
+	const isLive = weekGames.find(
+		({ isLive, homeTeam, awayTeam }) =>
+			isLive && (homeTeam === abbreviation || awayTeam === abbreviation)
+	)
+	const isByeWeek = byeWeeks[weekNumber].includes(abbreviation)
+
+	return {
+		isWinner,
+		isLaterGame,
+		isTie,
+		isLive,
+		isByeWeek
+	}
+}
