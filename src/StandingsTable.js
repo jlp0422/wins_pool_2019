@@ -54,7 +54,7 @@ const StandingsTable = () => {
 		return <h3>Loading...</h3>
 	}
 	return (
-		<div style={{ margin: '10px' }}>
+		<div>
 			<div style={{ display: 'flex', paddingBottom: '10px' }}>
 				<p style={keyStyling}>win: {htmlWinner({})}</p>
 				<p style={keyStyling}>loss: {htmlLoser({})}</p>

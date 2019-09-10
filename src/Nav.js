@@ -1,14 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Nav = () => {
+const Nav = ({ location }) => {
 	return (
 		<ul>
 			<li>
-				<Link to="/">standings table</Link>
+				{location.pathname === '/weeks-table' ? (
+					'standings table'
+				) : (
+					<Link to="/weeks-table">standings table</Link>
+				)}
 			</li>
 			<li>
-				<Link to="/rosters">rosters</Link>
+				{location.pathname === '/rosters' ? (
+					'rosters'
+				) : (
+					<Link to="/rosters">rosters</Link>
+				)}
 			</li>
 		</ul>
 	)

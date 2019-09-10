@@ -236,6 +236,14 @@ export const indexByWeek = parsedGames =>
 		return memo
 	}, {})
 
+export const formatTeams = teams =>
+	teams.map(({ team, stats }) => ({
+		wins: stats.standings.wins,
+		abbreviation: team.abbreviation,
+		fullName: `${team.city} ${team.name}`,
+		colors: team.teamColoursHex
+	}))
+
 export const getTeamWeekInfo = ({ weekGames, abbreviation, weekNumber }) => {
 	const isWinner = Boolean(
 		weekGames.find(({ winner }) => winner === abbreviation)

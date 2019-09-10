@@ -15,4 +15,18 @@ app.get(
 	})
 )
 
+app.get(
+	'/wins',
+	asyncMiddleware(async (req, res) => {
+		const response = await msfTwo.getData(
+			'nfl',
+			'2019-regular',
+			'seasonal_standings',
+			'json',
+			{ stats: 'W', force: true }
+		)
+		res.send(response)
+	})
+)
+
 module.exports = app
