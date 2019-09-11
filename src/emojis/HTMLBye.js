@@ -1,5 +1,5 @@
 import React from 'react'
-import { emojiStyling } from '../helpers'
+import { emojiStyling } from '../constants'
 
 const HTMLBye = ({ styling = emojiStyling }) => (
 	<span style={styling}>&#128075;</span>

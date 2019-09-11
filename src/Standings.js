@@ -1,11 +1,7 @@
 import React from 'react'
 import { TH, TD } from './shared'
-import {
-	poolSelections,
-	sortByWins,
-	indexByPerson,
-	sumWinsByTeams
-} from './helpers'
+import { sortByWins, indexByPerson, sumWinsByTeams } from './helpers'
+import { poolSelections } from './constants'
 
 const Standings = ({ teamWins }) => {
 	if (!teamWins.length) {

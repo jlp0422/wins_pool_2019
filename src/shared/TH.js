@@ -1,5 +1,5 @@
 import React from 'react'
-import { rowStyling } from '../helpers'
+import { rowStyling } from '../constants'
 
 const TH = ({ style = rowStyling, children, ...props }) => (
 	<th style={style} {...props}>

@@ -1,8 +1,8 @@
 import React from 'react'
-import { keyStyling } from './helpers'
+import { keyStyling } from './constants'
 
-const Key = ({ style = keyStyling, children, copy }) => (
-	<p style={style}>
+const Key = ({ style = keyStyling, children, copy, ...props }) => (
+	<p style={style} {...props}>
 		{copy}: {children}
 	</p>
 )

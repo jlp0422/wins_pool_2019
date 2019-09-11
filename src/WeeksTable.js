@@ -9,7 +9,8 @@ import {
 	HTMLTie
 } from './emojis'
 import { TH, TD } from './shared'
-import { poolSelections, getTeamWeekInfo } from './helpers'
+import { getTeamWeekInfo } from './helpers'
+import { poolSelections, keyMap } from './constants'
 
 const WeeksTable = ({ weeklyGames, winsPerTeam }) => {
 	const weeks = Object.keys(weeklyGames)
@@ -22,24 +23,11 @@ const WeeksTable = ({ weeklyGames, winsPerTeam }) => {
 	return (
 		<div>
 			<div style={{ display: 'flex', paddingBottom: '10px' }}>
-				<Key copy={'win'}>
-					<HTMLWinner />
-				</Key>
-				<Key copy={'loss'}>
-					<HTMLLoser />
-				</Key>
-				<Key copy={'tie'}>
-					<HTMLTie />
-				</Key>
-				<Key copy={'bye week'}>
-					<HTMLBye />
-				</Key>
-				<Key copy={'live'}>
-					<HTMLLive />
-				</Key>
-				<Key copy={'scheduled'}>
-					<HTMLLater />
-				</Key>
+				{keyMap.map(({ copy, Component }) => (
+					<Key key={copy} copy={copy}>
+						<Component />
+					</Key>
+				))}
 			</div>
 			<table>
 				<thead>
