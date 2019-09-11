@@ -2,20 +2,22 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Nav = ({ location }) => {
+	const weeklyWinsTable = 'weekly wins table'
+	const standings = 'standings'
 	return (
 		<ul>
 			<li>
 				{location.pathname === '/weeks-table' ? (
-					'standings table'
+					weeklyWinsTable
 				) : (
-					<Link to="/weeks-table">standings table</Link>
+					<Link to="/weeks-table">{weeklyWinsTable}</Link>
 				)}
 			</li>
 			<li>
-				{location.pathname === '/rosters' ? (
-					'rosters'
+				{location.pathname === '/standings' ? (
+					standings
 				) : (
-					<Link to="/rosters">rosters</Link>
+					<Link to="/standings">{standings}</Link>
 				)}
 			</li>
 		</ul>

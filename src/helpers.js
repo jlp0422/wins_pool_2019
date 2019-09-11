@@ -201,8 +201,12 @@ export const byeWeeks = {
 	17: []
 }
 
-export const parseSeasonGames = games =>
-	games
+export const sortByWins = (a, b) => {
+	return a.wins < b.wins ? 1 : a.wins > b.wins ? -1 : 0
+}
+
+export const parseSeasonGames = games => {
+	return games
 		.filter(
 			({ schedule }) =>
 				schedule.playedStatus === 'COMPLETED' ||
@@ -225,9 +229,10 @@ export const parseSeasonGames = games =>
 				isLive: schedule.playedStatus === 'LIVE'
 			}
 		})
+}
 
-export const indexByWeek = parsedGames =>
-	parsedGames.reduce((memo, item) => {
+export const indexByWeek = parsedGames => {
+	return parsedGames.reduce((memo, item) => {
 		if (!memo[item.week]) {
 			memo[item.week] = [item]
 		} else {
@@ -235,14 +240,16 @@ export const indexByWeek = parsedGames =>
 		}
 		return memo
 	}, {})
+}
 
-export const formatTeams = teams =>
-	teams.map(({ team, stats }) => ({
+export const formatTeams = teams => {
+	return teams.map(({ team, stats }) => ({
 		wins: stats.standings.wins,
 		abbreviation: team.abbreviation,
 		fullName: `${team.city} ${team.name}`,
 		colors: team.teamColoursHex
 	}))
+}
 
 export const getTeamWeekInfo = ({ weekGames, abbreviation, weekNumber }) => {
 	const isWinner = Boolean(
@@ -272,3 +279,37 @@ export const getTeamWeekInfo = ({ weekGames, abbreviation, weekNumber }) => {
 		isByeWeek
 	}
 }
+
+export const aggregateWins = nflTeams => {
+	return nflTeams.reduce((memo, { team, stats }) => {
+		memo[team.abbreviation] = stats.standings.wins
+		return memo
+	}, {})
+}
+
+export const indexByPerson = selections => {
+	return selections.reduce((memo, pick) => {
+		if (memo[pick.name]) {
+			memo[pick.name] = memo[pick.name].concat(pick.abbreviation)
+		} else {
+			memo[pick.name] = [pick.abbreviation]
+		}
+		return memo
+	}, {})
+}
+
+export const sumWinsByTeams = (personTeams, teamWins) => {
+	return personTeams.reduce(
+		(memo, teamAbbrev) =>
+			(memo += teamWins.find(team => team.abbreviation === teamAbbrev).wins),
+		0
+	)
+}
+
+export const rowStyling = { textAlign: 'center', padding: '2px 5px' }
+export const keyStyling = {
+	margin: '2px 0',
+	padding: '0px 3px',
+	textAlign: 'center'
+}
+export const emojiStyling = { paddingLeft: '5px' }

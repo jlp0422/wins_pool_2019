@@ -1,0 +1,6 @@
+export { default as HTMLWinner } from './HTMLWinner'
+export { default as HTMLLoser } from './HTMLLoser'
+export { default as HTMLTie } from './HTMLTie'
+export { default as HTMLBye } from './HTMLBye'
+export { default as HTMLLater } from './HTMLLater'
+export { default as HTMLLive } from './HTMLLive'
