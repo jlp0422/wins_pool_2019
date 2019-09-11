@@ -19,14 +19,11 @@ const Standings = ({ teamWins }) => {
 
 	const teamsPerPerson = indexByPerson(poolSelections)
 	const sortedRostersAndWins = Object.keys(teamsPerPerson)
-		.map(person => {
-			const personTeams = teamsPerPerson[person]
-			return {
-				person,
-				teams: personTeams,
-				wins: sumWinsByTeams(personTeams, teamWins)
-			}
-		})
+		.map(person => ({
+			person,
+			teams: teamsPerPerson[person],
+			wins: sumWinsByTeams(teamsPerPerson[person], teamWins)
+		}))
 		.sort(sortByWins)
 
 	return (
