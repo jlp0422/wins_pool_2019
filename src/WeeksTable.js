@@ -1,5 +1,6 @@
 import React from 'react'
 import Key from './Key'
+import { TH, TD } from './shared'
 import {
 	HTMLWinner,
 	HTMLLoser,
@@ -8,7 +9,6 @@ import {
 	HTMLLive,
 	HTMLTie
 } from './emojis'
-import { TH, TD } from './shared'
 import { getTeamWeekInfo } from './helpers'
 import { poolSelections, keyMap } from './constants'
 
