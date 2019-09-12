@@ -37,6 +37,8 @@
     "start:dev": "webpack --config webpack.dev.js --watch & nodemon server",
     "build": "webpack --config webpack.prod.js",
     "postinstall": "webpack --config webpack.prod.js",
+    "ec2-dev": "webpack --config webpack.dev.js & node server",
+    "ec2-prod": "webpack --config webpack.prod.js & node server",
     "heroku-postbuild": "webpack --config webpack.prod.js"
   },
   "husky": {
