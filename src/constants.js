@@ -216,13 +216,23 @@ export const keyStyling = {
 	padding: '0px 3px',
 	textAlign: 'center'
 }
-export const emojiStyling = { paddingLeft: '5px' }
+export const emojiStyling = { paddingLeft: '2px' }
+export const emojiKeyStyling = { paddingRight: '10px' }
 
 export const keyMap = [
 	{ copy: 'win', Component: HTMLWinner },
 	{ copy: 'loss', Component: HTMLLoser },
 	{ copy: 'tie', Component: HTMLTie },
-	{ copy: 'bye week', Component: HTMLBye },
+	{ copy: 'bye', Component: HTMLBye },
 	{ copy: 'live', Component: HTMLLive },
 	{ copy: 'scheduled', Component: HTMLLater }
 ]
+
+export const myTheme = {
+	title: { fontSize: '18px' },
+	header: {
+		fontSize: '16px',
+		fontWeight: '800'
+	},
+	rows: { fontSize: '14px' }
+}

@@ -1,7 +1,7 @@
 import React from 'react'
-import { TH, TD } from './shared'
+import DataTable from 'react-data-table-component'
 import { sortByWins, indexByPerson, sumWinsByTeams } from './helpers'
-import { poolSelections } from './constants'
+import { poolSelections, myTheme } from './constants'
 
 const Standings = ({ teamWins }) => {
 	if (!teamWins.length) {
@@ -17,33 +17,42 @@ const Standings = ({ teamWins }) => {
 	const sortedRostersAndWins = Object.keys(teamsPerPerson)
 		.map(person => ({
 			person,
-			teams: teamsPerPerson[person],
+			teams: teamsPerPerson[person].join(', '),
 			wins: sumWinsByTeams(teamsPerPerson[person], teamWins)
 		}))
 		.sort(sortByWins)
 
 	return (
-		<div>
-			<h3>standings</h3>
-			<table>
-				<thead>
-					<tr>
-						<TH>Person</TH>
-						<TH>Teams</TH>
-						<TH>Total Wins</TH>
-					</tr>
-				</thead>
-				<tbody>
-					{sortedRostersAndWins.map(({ person, teams, wins }) => (
-						<tr key={person}>
-							<TD>{person}</TD>
-							<TD>{teams.join(', ')}</TD>
-							<TD>{wins}</TD>
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</div>
+		<DataTable
+			dense
+			striped
+			fixedHeader
+			highlightOnHover
+			defaultSortAsc={false}
+			keyField={'person'}
+			title={'Season Standings'}
+			customTheme={myTheme}
+			data={sortedRostersAndWins}
+			columns={[
+				{
+					name: 'Person',
+					selector: 'person',
+					sortable: true,
+					width: '42%'
+				},
+				{
+					name: 'Teams',
+					selector: 'teams',
+					width: '40%'
+				},
+				{
+					name: 'Wins',
+					selector: 'wins',
+					sortable: true,
+					width: '15%'
+				}
+			]}
+		/>
 	)
 }
 
