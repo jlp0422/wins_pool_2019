@@ -1,15 +1,7 @@
 import React from 'react'
+import DataTable from 'react-data-table-component'
 import Key from './Key'
-import { TH, TD } from './shared'
-import {
-	HTMLWinner,
-	HTMLLoser,
-	HTMLBye,
-	HTMLLater,
-	HTMLLive,
-	HTMLTie
-} from './emojis'
-import { getTeamWeekInfo } from './helpers'
+import { getTeamWeekInfo, getWeeksFromInfo } from './helpers'
 import { poolSelections, keyMap } from './constants'
 
 const WeeksTable = ({ weeklyGames, winsPerTeam }) => {
@@ -20,6 +12,25 @@ const WeeksTable = ({ weeklyGames, winsPerTeam }) => {
 		return <h3>Loading...</h3>
 	}
 
+	const tableData = poolSelections.map(selection => {
+		const teamInfo = weeks.map(weekNumber => {
+			return {
+				weekNumber,
+				teamData: getTeamWeekInfo({
+					weekGames: weeklyGames[weekNumber],
+					abbreviation: selection.abbreviation,
+					weekNumber
+				})
+			}
+		})
+
+		return {
+			...selection,
+			totalWins: winsPerTeam[selection.abbreviation],
+			...getWeeksFromInfo(teamInfo)
+		}
+	})
+
 	return (
 		<div>
 			<div style={{ display: 'flex', paddingBottom: '10px' }}>
@@ -29,59 +40,50 @@ const WeeksTable = ({ weeklyGames, winsPerTeam }) => {
 					</Key>
 				))}
 			</div>
-			<table>
-				<thead>
-					<tr>
-						<TH>Pick</TH>
-						<TH>Person</TH>
-						<TH>Team</TH>
-						{poolSelections.slice(0, weeks.length).map(({ pick }) => (
-							<TH key={pick}>W{pick}</TH>
-						))}
-						<TH>Wins</TH>
-					</tr>
-				</thead>
-				<tbody>
-					{poolSelections.map(({ pick, name, abbreviation }) => (
-						<tr key={pick}>
-							<TD>{pick}</TD>
-							<TD>{name}</TD>
-							<TD>{abbreviation}</TD>
-							{Object.keys(weeklyGames).map(weekNumber => {
-								const {
-									isWinner,
-									isLaterGame,
-									isTie,
-									isLive,
-									isByeWeek
-								} = getTeamWeekInfo({
-									weekGames: weeklyGames[weekNumber],
-									abbreviation,
-									weekNumber
-								})
-								return (
-									<TD key={`${weekNumber}-${abbreviation}`}>
-										{isLive ? (
-											<HTMLLive />
-										) : isByeWeek ? (
-											<HTMLBye />
-										) : isTie ? (
-											<HTMLTie />
-										) : isWinner ? (
-											<HTMLWinner />
-										) : isLaterGame ? (
-											<HTMLLoser />
-										) : (
-											<HTMLLater />
-										)}
-									</TD>
-								)
-							})}
-							<TD>{winsPerTeam[abbreviation]}</TD>
-						</tr>
-					))}
-				</tbody>
-			</table>
+			<DataTable
+				responsive
+				dense
+				striped
+				fixedHeader
+				highlightOnHover
+				defaultSortAsc={false}
+				keyField={'abbreviation'}
+				data={tableData}
+				columns={[
+					{
+						name: 'Pick',
+						selector: 'pick',
+						sortable: true,
+						compact: true,
+						maxWidth: '50px'
+					},
+					{
+						name: 'Person',
+						selector: 'name',
+						sortable: true
+					},
+					{
+						name: 'Team',
+						selector: 'abbreviation',
+						sortable: true
+					}
+				]
+					.concat(
+						weeks.map(weekNumber => ({
+							name: `W${weekNumber}`,
+							selector: `W${weekNumber}`,
+							cell: row => {
+								const Component = row[`W${weekNumber}`]
+								return <Component />
+							}
+						}))
+					)
+					.concat({
+						name: 'Total Wins',
+						selector: 'totalWins',
+						sortable: true
+					})}
+			/>
 		</div>
 	)
 }

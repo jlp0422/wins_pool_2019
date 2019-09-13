@@ -1,4 +1,12 @@
 import { byeWeeks } from './constants'
+import {
+	HTMLWinner,
+	HTMLLoser,
+	HTMLBye,
+	HTMLLater,
+	HTMLLive,
+	HTMLTie
+} from './emojis'
 
 export const sortByWins = (a, b) => {
 	return a.wins < b.wins ? 1 : a.wins > b.wins ? -1 : 0
@@ -54,25 +62,27 @@ export const getTeamWeekInfo = ({ weekGames, abbreviation, weekNumber }) => {
 	const isWinner = Boolean(
 		weekGames.find(({ winner }) => winner === abbreviation)
 	)
-	const isLaterGame = Boolean(
+	const isTie = Boolean(
 		weekGames.find(
-			({ homeTeam, awayTeam }) =>
-				homeTeam === abbreviation || awayTeam === abbreviation
+			({ isTie, homeTeam, awayTeam }) =>
+				isTie && (homeTeam === abbreviation || awayTeam === abbreviation)
 		)
 	)
-	const isTie = weekGames.find(
-		({ isTie, homeTeam, awayTeam }) =>
-			isTie && (homeTeam === abbreviation || awayTeam === abbreviation)
+	const isLater = !weekGames.find(
+		({ homeTeam, awayTeam }) =>
+			homeTeam === abbreviation || awayTeam === abbreviation
 	)
-	const isLive = weekGames.find(
-		({ isLive, homeTeam, awayTeam }) =>
-			isLive && (homeTeam === abbreviation || awayTeam === abbreviation)
+	const isLive = Boolean(
+		weekGames.find(
+			({ isLive, homeTeam, awayTeam }) =>
+				isLive && (homeTeam === abbreviation || awayTeam === abbreviation)
+		)
 	)
 	const isByeWeek = byeWeeks[weekNumber].includes(abbreviation)
 
 	return {
 		isWinner,
-		isLaterGame,
+		isLater,
 		isTie,
 		isLive,
 		isByeWeek
@@ -104,3 +114,32 @@ export const sumWinsByTeams = (personTeams, teamWins) => {
 		0
 	)
 }
+
+export const getEmojiFromBooleans = ({
+	isWinner,
+	isLater,
+	isTie,
+	isLive,
+	isByeWeek
+}) =>
+	isLive
+		? HTMLLive
+		: isByeWeek
+		? HTMLBye
+		: isTie
+		? HTMLTie
+		: isWinner
+		? HTMLWinner
+		: isLater
+		? HTMLLater
+		: HTMLLoser
+
+export const getWeeksFromInfo = teamInfo =>
+	teamInfo
+		.map(({ weekNumber, teamData }) => ({
+			[`W${weekNumber}`]: getEmojiFromBooleans(teamData)
+		}))
+		.reduce((memo, week, index) => {
+			memo[`W${index + 1}`] = week[`W${index + 1}`]
+			return memo
+		}, {})

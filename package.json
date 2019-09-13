@@ -9,8 +9,10 @@
     "express": "^4.17.1",
     "mysportsfeeds-node": "^2.0.1",
     "react": "^16.9.0",
+    "react-data-table-component": "^3.4.1",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
+    "styled-components": "^4.3.2",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7"
   },
