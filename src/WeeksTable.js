@@ -41,7 +41,7 @@ const WeeksTable = ({ weeklyGames, winsPerTeam }) => {
 
 	return (
 		<DataTable
-			// responsive
+			responsive
 			dense
 			striped
 			fixedHeader
