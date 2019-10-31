@@ -190,7 +190,7 @@ export const poolSelections = [
 	}
 ]
 
-export const byeWeeks = {
+export const byeWeeks: {[key: number]: string[]} = {
 	1: [],
 	2: [],
 	3: [],

@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import DataTable from 'react-data-table-component'
 import Key from './Key'
 import { getTeamWeekInfo, getWeeksFromInfo } from './helpers'
 import { poolSelections, keyMap, myTheme, emojiKeyStyling } from './constants'
 
-const WeeksTable = ({ weeklyGames, winsPerTeam }) => {
+const WeeksTable: FunctionComponent<{
+	weeklyGames: { [key: string]: string }
+	winsPerTeam: { [key: string]: number }
+}> = ({ weeklyGames, winsPerTeam }) => {
 	const weeks = Object.keys(weeklyGames)
 	const teamWins = Object.keys(winsPerTeam)
 
@@ -81,7 +84,7 @@ const WeeksTable = ({ weeklyGames, winsPerTeam }) => {
 					weeks.map(weekNumber => ({
 						name: `W${weekNumber}`,
 						selector: `W${weekNumber}`,
-						cell: row => {
+						cell: (row: { [x: string]: any }) => {
 							const Component = row[`W${weekNumber}`]
 							return <Component />
 						}

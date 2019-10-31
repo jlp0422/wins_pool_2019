@@ -8,12 +8,11 @@ import {
 	HTMLTie
 } from './emojis'
 
-export const sortByWins = (a, b) => {
-	return a.wins < b.wins ? 1 : a.wins > b.wins ? -1 : 0
-}
+export const sortByWins = (a: { wins: number }, b: { wins: number }) =>
+	a.wins < b.wins ? 1 : a.wins > b.wins ? -1 : 0
 
-export const parseSeasonGames = games => {
-	return games
+export const parseSeasonGames = (games: any[]) =>
+	games
 		.filter(
 			({ schedule }) =>
 				schedule.playedStatus === 'COMPLETED' ||
@@ -36,10 +35,9 @@ export const parseSeasonGames = games => {
 				isLive: schedule.playedStatus === 'LIVE'
 			}
 		})
-}
 
-export const indexByWeek = parsedGames => {
-	return parsedGames.reduce((memo, item) => {
+export const indexByWeek = (parsedGames: any[]) =>
+	parsedGames.reduce((memo, item) => {
 		if (!memo[item.week]) {
 			memo[item.week] = [item]
 		} else {
@@ -47,38 +45,44 @@ export const indexByWeek = parsedGames => {
 		}
 		return memo
 	}, {})
-}
 
-export const formatTeams = teams => {
-	return teams.map(({ team, stats }) => ({
+export const formatTeams = (teams: any[]) =>
+	teams.map(({ team, stats }) => ({
 		wins: stats.standings.wins,
 		abbreviation: team.abbreviation,
 		fullName: `${team.city} ${team.name}`,
 		colors: team.teamColoursHex
 	}))
-}
 
-export const getTeamWeekInfo = ({ weekGames, abbreviation, weekNumber }) => {
-	const isWinner = Boolean(
+export const getTeamWeekInfo = ({
+	weekGames,
+	abbreviation,
+	weekNumber
+}: {
+	weekGames: any[]
+	abbreviation: string
+	weekNumber: number
+}) => {
+	const isWinner: boolean = Boolean(
 		weekGames.find(({ winner }) => winner === abbreviation)
 	)
-	const isTie = Boolean(
+	const isTie: boolean = Boolean(
 		weekGames.find(
 			({ isTie, homeTeam, awayTeam }) =>
 				isTie && (homeTeam === abbreviation || awayTeam === abbreviation)
 		)
 	)
-	const isLater = !weekGames.find(
+	const isLater: boolean = !weekGames.find(
 		({ homeTeam, awayTeam }) =>
 			homeTeam === abbreviation || awayTeam === abbreviation
 	)
-	const isLive = Boolean(
+	const isLive: boolean = Boolean(
 		weekGames.find(
 			({ isLive, homeTeam, awayTeam }) =>
 				isLive && (homeTeam === abbreviation || awayTeam === abbreviation)
 		)
 	)
-	const isByeWeek = byeWeeks[weekNumber].includes(abbreviation)
+	const isByeWeek: boolean = byeWeeks[weekNumber].includes(abbreviation)
 
 	return {
 		isWinner,
@@ -89,15 +93,14 @@ export const getTeamWeekInfo = ({ weekGames, abbreviation, weekNumber }) => {
 	}
 }
 
-export const aggregateWins = nflTeams => {
-	return nflTeams.reduce((memo, { team, stats }) => {
+export const aggregateWins = (nflTeams: any[]) =>
+	nflTeams.reduce((memo, { team, stats }) => {
 		memo[team.abbreviation] = stats.standings.wins
 		return memo
 	}, {})
-}
 
-export const indexByPerson = selections => {
-	return selections.reduce((memo, pick) => {
+export const indexByPerson = (selections: any[]) =>
+	selections.reduce((memo, pick) => {
 		if (memo[pick.name]) {
 			memo[pick.name] = memo[pick.name].concat(pick.abbreviation)
 		} else {
@@ -105,15 +108,13 @@ export const indexByPerson = selections => {
 		}
 		return memo
 	}, {})
-}
 
-export const sumWinsByTeams = (personTeams, teamWins) => {
-	return personTeams.reduce(
+export const sumWinsByTeams = (personTeams: any[], teamWins: any[]) =>
+	personTeams.reduce(
 		(memo, teamAbbrev) =>
 			(memo += teamWins.find(team => team.abbreviation === teamAbbrev).wins),
 		0
 	)
-}
 
 export const getEmojiFromBooleans = ({
 	isWinner,
@@ -121,6 +122,12 @@ export const getEmojiFromBooleans = ({
 	isTie,
 	isLive,
 	isByeWeek
+}: {
+	isWinner: boolean
+	isLater: boolean
+	isTie: boolean
+	isLive: boolean
+	isByeWeek: boolean
 }) =>
 	isLive
 		? HTMLLive
@@ -134,7 +141,7 @@ export const getEmojiFromBooleans = ({
 		? HTMLLater
 		: HTMLLoser
 
-export const getWeeksFromInfo = teamInfo =>
+export const getWeeksFromInfo = (teamInfo: any[]) =>
 	teamInfo
 		.map(({ weekNumber, teamData }) => ({
 			[`W${weekNumber}`]: getEmojiFromBooleans(teamData)

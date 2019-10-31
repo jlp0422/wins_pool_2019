@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import DataTable from 'react-data-table-component'
 import { sortByWins, indexByPerson, sumWinsByTeams } from './helpers'
 import { poolSelections, myTheme } from './constants'
 
-const Standings = ({ teamWins }) => {
+const Standings: FunctionComponent<{ teamWins: any[] }> = ({ teamWins }) => {
 	if (!teamWins.length) {
 		return (
 			<>

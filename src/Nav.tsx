@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
 
-const Nav = ({ location }) => {
+const Nav: FunctionComponent<{ location: { pathname: string } }> = ({
+	location
+}) => {
 	const weeklyWinsTable = 'weekly wins table'
 	const standings = 'standings'
 	return (
