@@ -58,7 +58,7 @@
   },
   "lint-staged": {
     "linters": {
-      "*.{js,md}": [
+      "*.{js,md,ts,tsx}": [
         "eslint --fix",
         "prettier --write",
         "git add"
