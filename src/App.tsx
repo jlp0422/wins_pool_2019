@@ -44,7 +44,7 @@ const App = () => {
 				setWinsPerTeam(winsPerTeamResult)
 				setTeamWins(formattedTeams)
 			} catch (error) {
-				if (axios.isCancel()) {
+				if (axios.isCancel(null)) {
 					console.log('Request was cancelled')
 				} else {
 					throw error

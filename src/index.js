@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
+import App from './App.tsx'
 // import ReactGA from "react-ga";
 
 // ReactGA.initialize("UA-128159832-1");

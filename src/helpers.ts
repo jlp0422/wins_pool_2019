@@ -61,7 +61,7 @@ export const getTeamWeekInfo = ({
 }: {
 	weekGames: any[]
 	abbreviation: string
-	weekNumber: number
+	weekNumber: string
 }) => {
 	const isWinner: boolean = Boolean(
 		weekGames.find(({ winner }) => winner === abbreviation)

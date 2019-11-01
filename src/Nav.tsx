@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 const Nav: FunctionComponent<{ location: { pathname: string } }> = ({
 	location
 }) => {
-	const weeklyWinsTable = 'weekly wins table'
-	const standings = 'standings'
+	const weeklyWinsTable: string = 'weekly wins table'
+	const standings: string = 'standings'
 	return (
 		<ul>
 			<li>
