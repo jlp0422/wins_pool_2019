@@ -63,7 +63,7 @@ const App = () => {
 	return (
 		<Router>
 			<div style={{ margin: '10px' }}>
-				<h2 style={{ margin: '0 0 10px' }}>wins pool 2019</h2>
+				<h2 style={{ margin: '0 0 10px' }}>wins pool 2020</h2>
 				<Route path="/" component={Nav} />
 				<Switch>
 					<Route exact path="/" render={() => <Redirect to="/weeks-table" />} />

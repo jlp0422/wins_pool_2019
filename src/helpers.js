@@ -17,7 +17,8 @@ export const parseSeasonGames = games => {
 		.filter(
 			({ schedule }) =>
 				schedule.playedStatus === 'COMPLETED' ||
-				schedule.playedStatus === 'LIVE'
+				schedule.playedStatus === 'LIVE' ||
+				schedule.playedStatus === 'COMPLETED_PENDING_REVIEW'
 		)
 		.map(({ schedule, score }) => {
 			const homeTeam = schedule.homeTeam.abbreviation
@@ -33,7 +34,9 @@ export const parseSeasonGames = games => {
 					? awayTeam
 					: homeTeam,
 				isTie,
-				isLive: schedule.playedStatus === 'LIVE'
+				isLive:
+					schedule.playedStatus === 'LIVE' ||
+					schedule.playedStatus === 'COMPLETED_PENDING_REVIEW'
 			}
 		})
 }
